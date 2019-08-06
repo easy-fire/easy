@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shopping.easy.mapper.PermissionMapper">
+    <resultMap id="PerResult" type="com.shopping.easy.model.PermissionModel">
+        <id column="per_id" property="per_id" javaType="Integer" jdbcType="INTEGER"/>
+        <result column="per_name" property="per_name" javaType="String" jdbcType="VARCHAR"/>
+        <result column="up_id" property="up_id" javaType="Integer" jdbcType="INTEGER"/>
+        <result column="url" property="url" javaType="String" jdbcType="VARCHAR"/>
+    </resultMap>
+</mapper>

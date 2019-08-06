@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shopping.easy.mapper.RoleMapper">
+    <resultMap id="RoleResult" type="com.shopping.easy.model.RoleModel">
+        <id column="role_id" property="role_id" javaType="Integer" jdbcType="INTEGER"/>
+        <result column="role_name" property="role_name" javaType="String" jdbcType="VARCHAR"/>
+    </resultMap>
+</mapper>

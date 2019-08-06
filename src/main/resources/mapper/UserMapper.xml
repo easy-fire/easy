@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shopping.easy.mapper.UserMapper">
+    <resultMap id="UserResult" type="com.shopping.easy.model.UserModel">
+        <id column="user_id" property="userId" javaType="Integer" jdbcType="INTEGER"/>
+        <result column="user_name" property="user_name" javaType="String" jdbcType="VARCHAR"/>
+        <result column="account" property="account" javaType="String" jdbcType="VARCHAR"/>
+        <result column="password" property="password" javaType="String" jdbcType="VARCHAR"/>
+        <result column="stage" property="stage" javaType="String" jdbcType="VARCHAR"/>
+        <result column="age" property="age" javaType="Integer" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--根据账号查询用户，并返回用户数据，用于账号登录-->
+    <select id="findByAccount" resultMap="UserResult" parameterType="String">
+        SELECT * FROM user  WHERE account = #{account}
+    </select>
+
+    <!--增加用户，用于用户注册-->
+    <insert id="addUser" parameterType="com.shopping.easy.model.UserModel" keyProperty="userId" useGeneratedKeys="true">
+          INSERT INTO
+          user
+          (
+          user_name,
+          account,
+          password,
+          stage,
+          age
+          )
+          VALUES
+          (
+          #{user_name},
+          #{account},
+          #{password},
+          #{stage},
+          #{age}
+          )
+    </insert>
+
+    <!--删除用户，用于用户管理-->
+    <update id="deleteUser">
+        UPDATE
+        user
+        SET
+        stage = '0'
+        where
+        user_id IN
+        <foreach collection="userId" item="user_id" index="no" open="("
+                 separator="," close=")">
+            #{user_id}
+        </foreach>
+    </update>
+
+    <!--更改用户信息-->
+    <update id="updateUser" parameterType="com.shopping.easy.model.UserModel">
+        UPDATE
+        user
+        SET
+        user_name = #{user_name},
+        password =#{password}
+        where
+        user_id = #{userId}
+    </update>
+</mapper>

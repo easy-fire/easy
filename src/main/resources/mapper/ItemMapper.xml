@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shopping.easy.mapper.ItemMapper">
+    <resultMap id="ItemResult" type="com.shopping.easy.model.ItemModel">
+        <id column="item_id" property="itemId" jdbcType="INTEGER" javaType="Integer"/>
+        <result column="item_name" property="itemName" jdbcType="VARCHAR" javaType="String"/>
+        <result column="item_price" property="itemPrice" jdbcType="DECIMAL" javaType="BigDecimal"/>
+        <result column="item_stock" property="itemStock" jdbcType="INTEGER" javaType="Integer"/>
+        <result column="item_sales" property="itemSales" jdbcType="INTEGER" javaType="Integer"/>
+        <result column="item_description" property="itemDescription" jdbcType="VARCHAR" javaType="String"/>
+        <result column="item_url" property="itemUrl" jdbcType="VARCHAR" javaType="String"/>
+    </resultMap>
+
+    <!--商品关键字模糊搜索-->
+    <select id="findByItemName" resultMap="ItemResult" parameterType="String">
+        SELECT * FROM item WHERE item_name LIKE CONCAT('%',#{itemName},'%') AND state = 1
+    </select>
+
+    <!--添加商品，返回影响条数-->
+    <insert id="addItem" parameterType="com.shopping.easy.model.ItemModel" keyProperty="itemId" useGeneratedKeys="true">
+          INSERT INTO
+          item
+          (
+          item_name,
+          item_price,
+          item_stock,
+          item_sales,
+          item_description,
+          item_url
+          )
+          VALUES
+          (
+          #{itemName},
+          #{itemPrice},
+          #{itemStock},
+          #{itemSales},
+          #{itemDescription},
+          #{itemUrl}
+          )
+    </insert>
+
+    <!--修改商品信息-->
+    <update id="upItem" parameterType="com.shopping.easy.model.ItemModel">
+        UPDATE
+        item
+        SET
+        item_name = #{itemName},
+        item_price = #{itemPrice},
+        item_stock = #{itemStock},
+        item_sales = #{itemSales},
+        item_description = #{itemDescription},
+        item_url = #{itemUrl}
+        WHERE
+        item_id = #{itemId}
+    </update>
+
+    <!--下架商品，逻辑删除-->
+    <update id="deleteItem" parameterType="Integer">
+        UPDATE
+        item
+        SET
+        state = 0
+        WHERE
+        item_id =#{itemId}
+    </update>
+
+    <!--商品详情查询-->
+    <select id="findByItemId" resultMap="ItemResult" parameterType="Integer">
+        SELECT
+        *
+        FROM
+        item
+        WHERE
+        item_id = #{itemId}
+        AND
+        state = 1
+    </select>
+
+    <!--店铺商品查询-->
+    <select id="findByUserId" resultType="com.shopping.easy.model.ItemModel">
+        SELECT
+        *
+        FROM
+        item
+        WHERE
+        item_id
+        IN
+        (
+            SELECT
+            item_id
+            FROM
+            item_fk_user
+            WHERE
+            user_id=#{userId}
+         )
+        AND
+        state = 1
+    </select>
+
+
+</mapper>

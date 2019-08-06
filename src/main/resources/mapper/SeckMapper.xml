@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shopping.easy.mapper.SeckMapper">
+    <resultMap id="SeckResult" type="com.shopping.easy.model.SeckModel">
+        <id column="seck_id" property="seckId" jdbcType="INTEGER" javaType="Integer"/>
+        <result column="seck_name" property="seckName" jdbcType="VARCHAR" javaType="String"/>
+        <result column="item_id" property="itemId" jdbcType="INTEGER" javaType="Integer"/>
+        <result column="price" property="price" jdbcType="DECIMAL" javaType="BigDecimal" />
+        <result column="start" property="start" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result column="end" property="end"  javaType="String"/>
+    </resultMap>
+
+    <!--参与秒杀的商品查询-->
+    <select id="findByItemId" resultMap="SeckResult" parameterType="Integer">
+        SELECT * FROM seck WHERE item_id = #{itemId}
+    </select>
+</mapper>
